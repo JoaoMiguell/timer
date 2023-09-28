@@ -1,43 +1,35 @@
 ﻿using System;
-using System.Threading.Tasks;
+using System.Threading;
 using Raylib_cs;
+using static QuickCodes.GlobalVar;
 
-namespace QuickCodes {
-  internal class Program {
-    static void Main(string[] args) {
-      const int _screenW = 300;
-      const int _screenH = 300;
-      Raylib.InitWindow(_screenW, _screenH, "Timer");
-      Raylib.SetTargetFPS(60);
+namespace QuickCodes;
+internal class Program {
+  static void Main(string[] args) {
 
-      CTimer clock = new CTimer(30);
+    Raylib.InitWindow(_screenW, _screenH, "Timer");
+    Raylib.SetTargetFPS(60);
 
-      bool isOver = false;
-      while(!isOver) {
-        isOver = Raylib.WindowShouldClose();
-        clock.update();
-        Raylib.ClearBackground(Color.BLACK);
-        Raylib.BeginDrawing();
-        Raylib.DrawText(clock.Val.ToString(), _screenW / 2, _screenH / 2, 20, Color.WHITE);
-        Raylib.EndDrawing();
+    Clock clock = new(new CTimer(20));
+    clock.WorkTimer.Start();
+    clock.WorkTimer.IsBackground = true;
+
+    bool isOver = false;
+    while(!isOver) {
+      isOver = Raylib.WindowShouldClose();
+
+      Raylib.ClearBackground(Color.BLACK);
+      Raylib.BeginDrawing();
+      clock.Draw();
+      Raylib.EndDrawing();
+    }
+
+    Raylib.CloseWindow();
+    if(clock.WorkTimer.IsBackground) {
+      try { clock.WorkTimer.Interrupt(); }
+      catch(Exception) {
+        Console.WriteLine("Unable to stop thread");
       }
-
-      Raylib.CloseWindow();
-    }
-  }
-
-
-  class CTimer {
-    public int Val { get; private set; }
-
-    public CTimer(int val) {
-      Val = val;
-    }
-
-    public void update() {
-      Console.WriteLine(Val);
-      Task.Delay(1000).Wait();
-      Val--;
     }
   }
 }
