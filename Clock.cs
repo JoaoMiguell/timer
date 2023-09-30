@@ -4,7 +4,6 @@ using static QuickCodes.GlobalVar;
 
 namespace QuickCodes;
 internal class Clock {
-  private int Val;
 
   public CTimer Timer { get; set; }
   public Thread WorkTimer { get; set; }
@@ -12,14 +11,13 @@ internal class Clock {
   public Clock(CTimer timer) {
     Timer = timer;
     WorkTimer = new(timer.Start);
-    Val = timer.Val;
   }
 
   public void Draw() {
-    int offSet = Raylib.MeasureText(Timer.Val.ToString(), 40);
+    int offSet = Raylib.MeasureText(Timer.Val.ToString(), 90);
     Raylib.DrawText(Timer.Val.ToString(),
       _screenW / 2 - offSet / 2, _screenH / 5 - 40,
-      40, Color.WHITE);
+      90, Color.WHITE);
   }
 }
 
