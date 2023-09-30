@@ -16,8 +16,10 @@ internal class Clock {
   }
 
   public void Draw() {
-    Raylib.DrawText(this.Timer.Val.ToString(), _screenW / 2, _screenH / 2, 20, Color.WHITE);
-
+    int offSet = Raylib.MeasureText(Timer.Val.ToString(), 40);
+    Raylib.DrawText(Timer.Val.ToString(),
+      _screenW / 2 - offSet / 2, _screenH / 5 - 40,
+      40, Color.WHITE);
   }
 }
 

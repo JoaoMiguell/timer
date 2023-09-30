@@ -3,11 +3,7 @@ using System.Threading.Tasks;
 namespace QuickCodes;
 
 internal class CTimer {
-  public int Val { get; private set; }
-
-  public CTimer(int val) {
-    Val = val;
-  }
+  public int Val { get; private set; } = 0;
 
   public void Start() {
     while(Val > 0) {
